@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <!-- PWA Meta Tags for Full Screen on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mobilcard">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#006B00">
+  <meta name="application-name" content="Mobilcard">
+  
+  <!-- Prevent phone number detection -->
+  <meta name="format-detection" content="telephone=no">
+  
+  <title>Mobilcard</title>
+  
+  <!-- Apple Touch Icons -->
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCBmaWxsPSIjMDA2QjAwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIvPjx0ZXh0IHg9IjkwIiB5PSIxMjAiIGZvbnQtc2l6ZT0iODAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSI+TTwvdGV4dD48L3N2Zz4=">
+  <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCBmaWxsPSIjMDA2QjAwIiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIvPjx0ZXh0IHg9IjkwIiB5PSIxMjAiIGZvbnQtc2l6ZT0iODAiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBzYW5zLXNlcmlmIiBmb250LXdlaWdodD0iNjAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSI+TTwvdGV4dD48L3N2Zz4=">
+  
+  <!-- Splash Screens for various iPhone sizes -->
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjkwIDI3OTYiPjxyZWN0IGZpbGw9IiMwMDZCMDAiIHdpZHRoPSIxMjkwIiBoZWlnaHQ9IjI3OTYiLz48dGV4dCB4PSI2NDUiIHk9IjE0NTAiIGZvbnQtc2l6ZT0iMjAwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPk1vYmlsY2FyZDwvdGV4dD48L3N2Zz4=">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3)" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTc5IDI1NTYiPjxyZWN0IGZpbGw9IiMwMDZCMDAiIHdpZHRoPSIxMTc5IiBoZWlnaHQ9IjI1NTYiLz48dGV4dCB4PSI1OTAiIHk9IjEzMDAiIGZvbnQtc2l6ZT0iMTgwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPk1vYmlsY2FyZDwvdGV4dD48L3N2Zz4=">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTcwIDI1MzIiPjxyZWN0IGZpbGw9IiMwMDZCMDAiIHdpZHRoPSIxMTcwIiBoZWlnaHQ9IjI1MzIiLz48dGV4dCB4PSI1ODUiIHk9IjEzMDAiIGZvbnQtc2l6ZT0iMTgwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPk1vYmlsY2FyZDwvdGV4dD48L3N2Zz4=">
+  <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMTI1IDI0MzYiPjxyZWN0IGZpbGw9IiMwMDZCMDAiIHdpZHRoPSIxMTI1IiBoZWlnaHQ9IjI0MzYiLz48dGV4dCB4PSI1NjIiIHk9IjEyNTAiIGZvbnQtc2l6ZT0iMTcwIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgc2Fucy1zZXJpZiIgZm9udC13ZWlnaHQ9IjYwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPk1vYmlsY2FyZDwvdGV4dD48L3N2Zz4=">
+
+  <!-- Web App Manifest (inline as data URI) -->
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIk1vYmlsY2FyZCBTb3V0aCBUeXJvbCIsCiAgInNob3J0X25hbWUiOiAiTW9iaWxjYXJkIiwKICAiZGVzY3JpcHRpb24iOiAiU291dGggVHlyb2wgTW9iaWxjYXJkIFRyYW5zaXQgVGlja2V0IiwKICAic3RhcnRfdXJsIjogIi4iLAogICJkaXNwbGF5IjogInN0YW5kYWxvbmUiLAogICJiYWNrZ3JvdW5kX2NvbG9yIjogIiMwMDZCMDAiLAogICJ0aGVtZV9jb2xvciI6ICIjMDA2QjAwIiwKICAib3JpZW50YXRpb24iOiAicG9ydHJhaXQiCn0=">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    
+    html {
+      height: 100%;
+      overflow: hidden;
+      background-color: #006B00;
+    }
+    
+    body {
+      height: 100%;
+      overflow: hidden;
+      background-color: #006B00;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      /* Prevent overscroll/bounce */
+      overscroll-behavior: none;
+      position: fixed;
+      width: 100%;
+    }
+    
+    #root {
+      height: 100%;
+      width: 100%;
+    }
+    
+    /* Hide scrollbars */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    
+    /* Prevent text selection */
+    * {
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    
+    /* Allow scrolling in the scroll container */
+    .scroll-container {
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-y: contain;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  
+  <script>
+    const { useState, useEffect, useRef } = React;
+    const e = React.createElement;
+
+    // Mobilcard Logo Component
+    const MobilcardLogo = () => {
+      return e('div', { 
+        style: {
+          width: '80px',
+          height: '48px',
+          border: '1px solid #E0E0E0',
+          borderRadius: '8px',
+          backgroundColor: 'white',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '4px 8px',
+        }
+      },
+        e('svg', { width: 65, height: 36, viewBox: '0 0 65 36' },
+          e('path', { 
+            d: 'M2 4 L2 32 L8 32 L8 16 L14.5 28 L21 16 L21 32 L27 32 L27 4 L21 4 L14.5 18 L8 4 Z', 
+            fill: '#8B1538' 
+          }),
+          e('circle', { cx: 38, cy: 12, r: 5, fill: '#8B1538' }),
+          e('circle', { cx: 52, cy: 12, r: 5, fill: '#8B1538' }),
+          e('circle', { cx: 38, cy: 26, r: 5, fill: '#8B1538' }),
+          e('circle', { cx: 52, cy: 26, r: 5, fill: '#8B1538' }),
+          e('rect', { x: 45, y: 16, width: 4, height: 6, rx: 1, fill: '#8B1538' })
+        )
+      );
+    };
+
+    // QR Code Component
+    const QRCode = () => {
+      const generatePattern = () => {
+        const elements = [];
+        const moduleSize = 6;
+        const startOffset = 75;
+        
+        const seed = 42;
+        const pattern = [];
+        for (let i = 0; i < 20; i++) {
+          pattern[i] = [];
+          for (let j = 0; j < 20; j++) {
+            if ((i < 5 && j < 5) || (i < 5 && j > 14) || (i > 14 && j < 5)) {
+              pattern[i][j] = 0;
+            } else {
+              pattern[i][j] = ((i * 7 + j * 13 + seed) % 3) < 2 ? 1 : 0;
+            }
+          }
+        }
+        
+        for (let i = 0; i < 20; i++) {
+          for (let j = 0; j < 20; j++) {
+            if (pattern[i][j] === 1) {
+              elements.push(
+                e('rect', {
+                  key: `p-${i}-${j}`,
+                  x: startOffset + j * moduleSize,
+                  y: startOffset + i * moduleSize,
+                  width: moduleSize,
+                  height: moduleSize,
+                  fill: 'black'
+                })
+              );
+            }
+          }
+        }
+        return elements;
+      };
+
+      return e('svg', { 
+        width: '100%',
+        height: 'auto',
+        viewBox: '0 0 280 280',
+        style: { 
+          display: 'block', 
+          margin: '0 auto',
+          maxWidth: '280px'
+        } 
+      },
+        e('rect', { width: 280, height: 280, fill: 'white' }),
+        e('rect', { x: 15, y: 15, width: 56, height: 56, fill: 'black' }),
+        e('rect', { x: 21, y: 21, width: 44, height: 44, fill: 'white' }),
+        e('rect', { x: 27, y: 27, width: 32, height: 32, fill: 'black' }),
+        e('rect', { x: 209, y: 15, width: 56, height: 56, fill: 'black' }),
+        e('rect', { x: 215, y: 21, width: 44, height: 44, fill: 'white' }),
+        e('rect', { x: 221, y: 27, width: 32, height: 32, fill: 'black' }),
+        e('rect', { x: 15, y: 209, width: 56, height: 56, fill: 'black' }),
+        e('rect', { x: 21, y: 215, width: 44, height: 44, fill: 'white' }),
+        e('rect', { x: 27, y: 221, width: 32, height: 32, fill: 'black' }),
+        ...generatePattern()
+      );
+    };
+
+    // Cable Car Component
+    const CableCar = () => {
+      return e('svg', { 
+        width: 45, 
+        height: 55, 
+        viewBox: '0 0 45 55',
+        style: { overflow: 'visible' }
+      },
+        e('line', { x1: 22.5, y1: 0, x2: 22.5, y2: 12, stroke: '#2D2D2D', strokeWidth: 2.5 }),
+        e('line', { x1: 12, y1: 12, x2: 33, y2: 12, stroke: '#2D2D2D', strokeWidth: 2.5 }),
+        e('line', { x1: 12, y1: 12, x2: 6, y2: 22, stroke: '#2D2D2D', strokeWidth: 2.5 }),
+        e('line', { x1: 33, y1: 12, x2: 39, y2: 22, stroke: '#2D2D2D', strokeWidth: 2.5 }),
+        e('rect', { 
+          x: 3, y: 22, width: 39, height: 30, rx: 3, 
+          fill: 'white', stroke: '#2D2D2D', strokeWidth: 2.5 
+        }),
+        e('rect', { 
+          x: 8, y: 27, width: 13, height: 18, 
+          fill: '#E8E8E8', stroke: '#2D2D2D', strokeWidth: 1.5 
+        }),
+        e('line', { x1: 14.5, y1: 27, x2: 14.5, y2: 45, stroke: '#2D2D2D', strokeWidth: 1 }),
+        e('rect', { 
+          x: 24, y: 27, width: 13, height: 18, 
+          fill: '#E8E8E8', stroke: '#2D2D2D', strokeWidth: 1.5 
+        }),
+        e('line', { x1: 30.5, y1: 27, x2: 30.5, y2: 45, stroke: '#2D2D2D', strokeWidth: 1 })
+      );
+    };
+
+    // Main App Component
+    const MobilcardApp = () => {
+      const [timeRemaining, setTimeRemaining] = useState(21 * 60 * 60 + 39 * 60);
+      const [cableCarPosition, setCableCarPosition] = useState(0);
+      const scrollRef = useRef(null);
+
+      // Countdown timer
+      useEffect(() => {
+        const timer = setInterval(() => {
+          setTimeRemaining(prev => (prev > 0 ? prev - 1 : 0));
+        }, 1000);
+        return () => clearInterval(timer);
+      }, []);
+
+      // Cable car animation
+      useEffect(() => {
+        let animationId;
+        let startTime = null;
+        const duration = 12000;
+        
+        const animate = (timestamp) => {
+          if (!startTime) startTime = timestamp;
+          const elapsed = timestamp - startTime;
+          const progress = (elapsed % duration) / duration;
+          
+          setCableCarPosition(progress * 100);
+          animationId = requestAnimationFrame(animate);
+        };
+        
+        animationId = requestAnimationFrame(animate);
+        return () => cancelAnimationFrame(animationId);
+      }, []);
+
+      // Prevent body scroll on iOS
+      useEffect(() => {
+        const preventDefault = (e) => {
+          if (!scrollRef.current?.contains(e.target)) {
+            e.preventDefault();
+          }
+        };
+        
+        document.body.addEventListener('touchmove', preventDefault, { passive: false });
+        return () => document.body.removeEventListener('touchmove', preventDefault);
+      }, []);
+
+      const formatTime = (seconds) => {
+        const hours = Math.floor(seconds / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        return `${hours}:${mins.toString().padStart(2, '0')}`;
+      };
+
+      const getCableCarTransform = () => {
+        const progress = cableCarPosition / 100;
+        const startX = -8;
+        const endX = 108;
+        const startY = 73;
+        const endY = 15;
+        
+        const x = startX + (endX - startX) * progress;
+        const y = startY + (endY - startY) * progress;
+        
+        return { x, y };
+      };
+
+      const cableCarPos = getCableCarTransform();
+
+      return e('div', { 
+        style: {
+          width: '100%',
+          height: '100%',
+          backgroundColor: '#006B00',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+        }
+      },
+        // Safe area top
+        e('div', { 
+          style: {
+            height: 'env(safe-area-inset-top, 47px)',
+            minHeight: '47px',
+            backgroundColor: '#006B00',
+            flexShrink: 0,
+          }
+        }),
+        
+        // Header
+        e('div', { 
+          style: {
+            padding: '4px 20px 20px',
+            backgroundColor: '#006B00',
+            position: 'relative',
+            flexShrink: 0,
+          }
+        },
+          e('button', { 
+            style: {
+              position: 'absolute',
+              right: '16px',
+              top: '4px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              zIndex: 10,
+            },
+            onClick: () => {
+              if (window.navigator.standalone) {
+                // If running as PWA, we can't really close
+                alert('Swipe up from bottom to close the app');
+              } else {
+                window.close();
+              }
+            }
+          },
+            e('svg', { 
+              width: 22, 
+              height: 22, 
+              viewBox: '0 0 24 24', 
+              fill: 'none', 
+              stroke: 'white', 
+              strokeWidth: 2.5,
+              strokeLinecap: 'round'
+            },
+              e('line', { x1: 18, y1: 6, x2: 6, y2: 18 }),
+              e('line', { x1: 6, y1: 6, x2: 18, y2: 18 })
+            )
+          ),
+          e('div', { 
+            style: {
+              color: 'white',
+              fontSize: '26px',
+              fontStyle: 'italic',
+              fontWeight: '400',
+              letterSpacing: '-0.3px',
+            }
+          }, `Active journey ${formatTime(timeRemaining)}`)
+        ),
+        
+        // Scrollable content
+        e('div', { 
+          ref: scrollRef,
+          className: 'scroll-container',
+          style: {
+            flex: 1,
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            padding: '0 20px',
+            paddingBottom: 'calc(env(safe-area-inset-bottom, 20px) + 20px)',
+            WebkitOverflowScrolling: 'touch',
+          }
+        },
+          // Ticket Card
+          e('div', { 
+            style: {
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              padding: '20px 22px',
+              marginBottom: '14px',
+            }
+          },
+            e('div', { style: { marginBottom: '14px' } }, e(MobilcardLogo)),
+            e('h1', { 
+              style: {
+                fontSize: '28px',
+                fontWeight: '600',
+                color: '#000000',
+                margin: '0 0 18px 0',
+                letterSpacing: '-0.4px',
+              }
+            }, 'Mobilcard 1 day'),
+            e('div', { style: { marginBottom: '14px' } },
+              e('span', { 
+                style: {
+                  display: 'block',
+                  fontSize: '15px',
+                  color: '#8A8A8A',
+                  marginBottom: '3px',
+                }
+              }, 'Validated'),
+              e('span', { 
+                style: {
+                  display: 'block',
+                  fontSize: '24px',
+                  color: '#000000',
+                  fontWeight: '500',
+                }
+              }, '27.11.2025, 07:41')
+            ),
+            e('div', { style: { marginBottom: '16px' } },
+              e('span', { 
+                style: {
+                  display: 'block',
+                  fontSize: '15px',
+                  color: '#8A8A8A',
+                  marginBottom: '3px',
+                }
+              }, 'Ticket holder'),
+              e('span', { 
+                style: {
+                  display: 'block',
+                  fontSize: '24px',
+                  color: '#000000',
+                  fontWeight: '600',
+                }
+              }, 'Vadym Yeremiichuk')
+            ),
+            e('div', { 
+              style: {
+                height: '1px',
+                backgroundColor: '#E5E5E5',
+                margin: '8px 0 18px',
+              }
+            }),
+            e('div', null,
+              e('span', { 
+                style: {
+                  display: 'block',
+                  fontSize: '15px',
+                  color: '#8A8A8A',
+                  marginBottom: '10px',
+                }
+              }, 'Journey planner'),
+              e('div', { 
+                style: {
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '34px',
+                  height: '34px',
+                  backgroundColor: '#404040',
+                  borderRadius: '9px',
+                  marginBottom: '10px',
+                }
+              },
+                e('span', { 
+                  style: {
+                    color: 'white',
+                    fontSize: '17px',
+                    fontWeight: '600',
+                  }
+                }, 'R')
+              ),
+              e('p', { 
+                style: {
+                  fontSize: '24px',
+                  color: '#000000',
+                  fontWeight: '600',
+                  margin: '0',
+                  lineHeight: '1.25',
+                }
+              }, 'Bahnhof Sterzing - Pfitsch – Bahnhof Meran')
+            )
+          ),
+          
+          // QR Card
+          e('div', { 
+            style: {
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              padding: '28px 22px',
+              marginBottom: '14px',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }
+          },
+            e(QRCode),
+            e('button', { 
+              style: {
+                marginTop: '24px',
+                backgroundColor: '#007B8A',
+                color: 'white',
+                border: 'none',
+                borderRadius: '26px',
+                padding: '15px 36px',
+                fontSize: '17px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                fontFamily: 'inherit',
+              }
+            }, 'Check validity')
+          ),
+          
+          // Animation Card
+          e('div', { 
+            style: {
+              backgroundColor: 'white',
+              borderRadius: '16px',
+              padding: '26px 0 0 0',
+              marginBottom: '14px',
+              overflow: 'hidden',
+            }
+          },
+            e('h2', { 
+              style: {
+                fontSize: '24px',
+                fontWeight: '600',
+                color: '#000000',
+                textAlign: 'center',
+                margin: '0 0 24px 0',
+              }
+            }, 'Have a safe trip!'),
+            e('div', { 
+              style: {
+                position: 'relative',
+                width: '100%',
+                height: '260px',
+                overflow: 'hidden',
+                background: 'linear-gradient(to bottom, #FFFFFF 0%, #F5F9FC 100%)',
+              }
+            },
+              e('svg', { 
+                viewBox: '0 0 400 180',
+                preserveAspectRatio: 'xMidYMax slice',
+                style: {
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                }
+              },
+                e('polygon', { points: '-10,180 70,70 150,180', fill: '#BFD9E8' }),
+                e('polygon', { points: '100,180 180,35 260,180', fill: '#C8DFE9' }),
+                e('polygon', { points: '260,180 340,55 420,180', fill: '#BFD9E8' }),
+                e('polygon', { points: '-30,180 50,95 130,180', fill: '#2B7B87' }),
+                e('polygon', { points: '80,180 165,70 250,180', fill: '#267078' }),
+                e('polygon', { points: '200,180 285,85 370,180', fill: '#2B7B87' }),
+                e('polygon', { points: '300,180 365,110 430,180', fill: '#267078' }),
+                e('line', { 
+                  x1: -30, y1: 135, 
+                  x2: 430, y2: 27, 
+                  stroke: '#2D2D2D', 
+                  strokeWidth: 2.2
+                })
+              ),
+              e('div', { 
+                style: {
+                  position: 'absolute',
+                  left: `${cableCarPos.x}%`,
+                  top: `${cableCarPos.y}%`,
+                  transform: 'translate(-50%, -50%)',
+                  zIndex: 10,
+                  willChange: 'left, top',
+                }
+              }, e(CableCar))
+            )
+          ),
+          
+          e('div', { style: { height: '30px' } })
+        )
+      );
+    };
+
+    // Render
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(e(MobilcardApp));
+  </script>
+</body>
+</html>
